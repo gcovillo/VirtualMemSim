@@ -1,0 +1,71 @@
+Virtual Memory: separation of user logical memory from physical memory
+  -only part of the program needs to be in memory for execution
+  -logical address space can be bigger than physical address space
+  -allows address space to be shared by several processes
+  
+  Virtual Address Space: logical view of how process is stored in memory
+    -usually starts at address 0
+    - on the other hand, physical memory is organized in page frames. 
+    - MMU must map logical to physical.  
+    - Virtual Memory can be implemented via demand paging and demand segmentation
+    - Stack grows Down while heap grows up
+    - enables sparse address spaces with holes left for growth, dynamically linked libraries, etc
+    -shared memory by mapping pages read-write into virtual address space
+    - pages can be shared during fork() speeding process creation
+    
+  Demand Pageing:
+    - could bring entire process into memory at load time or bring a page into memory only when it is needed
+        -less I/O needed, no unnexessary I/O
+        -less memory needed
+        -faster response 
+        -more users
+        - similar to paging system with swapping
+        - page is needed --> reference to it
+              - invalid reference = abort
+              - not-in-memory = bring to memory
+        - Lazy Swapper:
+            -never swaps a page into memory unless page will be needed
+            -swapper that deals with pages is pager
+            
+    Basic Concepts: 
+      - with swapping, pager guesses which apges will be used before swapping out again. 
+      - with pager, it brings in only those pages into memory
+      - How do you determine that set of pages?
+        - Need new MMU functionality to implement demand paging
+      - If pages needed are already memory resident:
+        - No difference from non demand-paging
+      - If page needed and not memory resident:
+        - Need to detect and load the page into memory from storage without changing program behavior or changing code directly
+          
+    Valid-Invalid Bit:
+      -with each page table entry a valid-invalid bit is associated (v = in memory (memory-resident) i = not in memory)
+      -Initially valid - invalid bit is set to i on all entries 
+      -During MMU address translation, if valid-invalid bit in page table entry is i = page fault
+      
+      ------------------------
+     | Frame        | V or I  |
+     |  xxxxxxxx    |    I    |
+     |  xxxxxxxx    |    I    |
+     |  xxxxxxxx    |    I    |
+      ------------------------
+      
+    Page Fault: 
+      - if there is a reference to a page, first reference to that page with trap to operating system: page fault
+      1. Operating Syste looks at another table to decide, invalid reference = abort or just not in memory
+      2. Find free frame
+      3. Swap page into frame via scheduled disk operation
+      4. Reset tables to indicate page now in memory (Set validation bit = v)
+      5. Restart the instruction that caused the page fault
+      
+    Aspects of Demand Paging:
+      - Extreme Case: start process with no pages in memory
+        - OS sets instruction pointer to first instruction of process, non-memory resident = page faut
+        - and for every other process pages on first access
+        - pure demand paging
+     - Given instruction could access multiple pages --> multiple page faults
+        - consider fetch and decode of instruction which adds 2 numbers from memory and stores results back in memory
+        - pain decreased because of locality of reference
+     - Hardware support needed for demand paging
+        - page table with valid / invalid bit
+        - secondary memory (swap device with swap space)
+        - instruction restart
