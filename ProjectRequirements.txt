@@ -26,5 +26,10 @@ Submission:
   - screenshots of the test results and outputs in your project report
   - all implementation source code
 
+
+Extra Credit:
+  -implement a FIFO page replacement algorithm
+  -compare page table hit rates of the LRU and FIFO algorithms for the five benchmarks
+  -which algorithm is better based on the results? give your own thoughts and explanations. 
   
   
