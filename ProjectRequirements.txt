@@ -1,0 +1,30 @@
+Goal: Implement a virtual ammory simulator in a high-level language
+
+Requirements:
+  - 32-bit logical address
+  - 24-bit logical address
+  - Page (Frame) Size: 4kb
+  - Page Replacement Algorithm: LRU
+  - Assume the page table to be stored in a separated space (not in the 24-bit physicall address space)
+  - Only the functional behavior is simulated. Not latency simulation. 
+  
+ Input: trace files (traces.zip) with 5 benchmarks included
+ 
+
+Trace File Format: 
+  - s0x1fffff50
+    - s or l means store or load
+    - 0x1fffff50 is the 32-bit logical address in hexadecimal
+    
+Results/Output Requirement: *needs to be replicated for each of the 5 benchmarks*
+  -Number of Page Faults
+  -Page Table Hit Rate
+    - hit rate = number of page hit / number of page reference
+    
+Submission:
+  - report on the design and implementation
+  - screenshots of the test results and outputs in your project report
+  - all implementation source code
+
+  
+  
