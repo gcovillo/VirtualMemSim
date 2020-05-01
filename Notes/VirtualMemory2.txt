@@ -1,0 +1,47 @@
+Page Replacement:
+  - prevents over-allocation of memory by modifying page-fault service routine to include page replacement
+  - use modify (dirty) bit to reduce overhead of page transfers - only modified pages are written to disk
+  - page replacement completes separation between logical memory and physical memory - large virtual memory can be provided on a smaller physical memory
+  
+Basic Page Replacement: 
+  1. Find the location of the desired page on disk
+  2. Find a free frame:
+      -if there is a free frame, use it
+      -if there is no free frame, use a page replacement algorithm to select a vistim frame
+        -write a victim frame to disk if dirty
+  3. Bring the desired page into the (newly) free frame; update the page and frame tables
+  4. Cotinue the process by restarting the instruction that caused the trap
+  
+Page & Frame Replacement Algorithms:
+  - Frame allocation algorithm:
+    - determines how many frames to give each process and which frames to replace
+  - Page-Replacement Algorithm:
+    - wants lowest page-fault rate on both first access and re-access
+  - Evaluate algorithm by running it on a particular string of memory references (reference string) and computing the number of page faults on that string
+    - String is just page numbers, not full addresses
+    - Repeated access to the same page does not cause a page fault
+    - Results depends on number of frames available
+
+Types of Page Replacement Algorithms:
+  -FIFO
+  -Optimal: replace page that will not be used for longest period of time
+  -LRU: replace page that has not been used in the most amount of time
+  
+LRU Algorithm: 
+  -Counter Implementation:
+    - every page has a counter, every time page is referenced through this entyr, you copy the clock into the counter
+    - when page needs to be changed, look at the counters to find the smallest value
+      -search through table needed
+  - Stack Implementation:
+    -Keep a stack of page numbers in a double link form:
+    -Page referenced:
+      -move it to the top
+      -requires 6 pointers to be changed
+    -But each update more expensive
+    -no search for replacement
+    
+Counting Algorithms: 
+  - keep a counter of the number of references that have been made to each page
+  - LFU algorithm
+  - MFU algorithm
+    
