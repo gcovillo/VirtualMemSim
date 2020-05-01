@@ -1,0 +1,58 @@
+// https://www.chegg.com/homework-help/questions-and-answers/design-implement-demand-paging-virtual-memory-simulator-must-text-based-application-gui-ba-q5384126
+
+package simulator;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Scanner;
+
+public class Menu {
+
+private int selected; //stores the menu selection
+private boolean showReferenceString;
+public String selectedReferenceStringBuffer;
+static final String VFRAMES = "01234567";
+static Random rnd = new Random();
+
+// does the whole menu logic (presentation, validation and returns reult)
+
+public int doMenu() {
+
+this.showMenu();
+int token;
+
+
+do {
+Scanner scanner = new Scanner(System.in);
+
+// non integers shouldn't be accespted
+while (!scanner.hasNextInt()) {
+System.out.print("\nValid selections are 0-6 (try again)> ");
+scanner.nextLine();
+}
+
+token = scanner.nextInt();
+
+//other integers shouldn't work
+if (token > 6 || token < 0) {
+System.out.print("\nSeriously? you can choose either 0,1,2,3,4,5 or 6. Everything else just ain't gonna work. (try again)\n> ");
+}
+
+} while (token > 6 || token < 0);
+
+this.selected = token;
+
+// return the valid selection to caller
+return this.selected;
+}
+
+//menu view
+public void showMenu() {
+
+String menu = "Memory Paging Simulation Menu:\n\n";
+
+// display the reference string if display is true
+if (this.showReferenceString) {
+menu += "[Current RS:" + this.selectedReferenceStringBuffer + "]\n\n";
+}
+
+menu += "0
